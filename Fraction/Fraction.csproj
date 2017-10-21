@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <NeutralLanguage>English</NeutralLanguage>
+    <SignAssembly>False</SignAssembly>
+    <Authors>Jörg Hilscher</Authors>
+    <Company>jHilscher@github</Company>
+  </PropertyGroup>
+
+</Project>
