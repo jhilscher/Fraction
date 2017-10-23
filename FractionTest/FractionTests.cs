@@ -175,7 +175,7 @@ namespace FractionTest
             double d = 5.125D;
 
             // Act
-            F f = F.ToFraction(d, 0.000001);
+            F f = F.ToFraction(d);
 
             Console.WriteLine(f);
 
@@ -210,6 +210,20 @@ namespace FractionTest
             // Assert
             Assert.AreEqual(123, f.Numerator);
             Assert.AreEqual(9632, f.Denominator);
+        }
+
+        [TestMethod]
+        public void FractionToTupleTest()
+        {
+            // Arrange
+            F f = new F(11,37);
+
+            // Act
+            var (n, d) = f;
+
+            // Assert
+            Assert.AreEqual(f.Numerator, n);
+            Assert.AreEqual(f.Denominator, d);
         }
     }
 }

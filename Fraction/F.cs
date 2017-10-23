@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Fraction
+﻿namespace Fraction
 {
     using System;
     using System.Collections.Generic;
@@ -9,6 +7,8 @@ namespace Fraction
 
     public struct F : IComparable<F>, ICustomFormatter
     {
+        public const double DefaultPrecition = 10e-16;
+
         private int _numerator;
         private int _denominator;
 
@@ -38,6 +38,23 @@ namespace Fraction
             Reduce();
         }
 
+        /// <summary>
+        /// Tuple Constructor
+        /// </summary>
+        /// <example>
+        /// new F((1, 2));
+        /// </example>
+        /// <remarks>
+        /// if you must use tuples
+        /// </remarks>
+        /// <param name="tuple">(int, int)</param>
+        public F((int numerator, int denominator) tuple) : this (tuple.numerator, tuple.denominator)
+        { }
+   
+        /// <summary>
+        /// Copy Constructor
+        /// </summary>
+        /// <param name="f"></param>
         public F(F f) : this(f.Numerator, f.Denominator)
         { }
 
@@ -65,47 +82,37 @@ namespace Fraction
         /// Stern–Brocot tree
         /// </summary>
         /// <param name="d"></param>
-        /// <param name="error"></param>
+        /// <param name="precition"></param>
         /// <returns></returns>
-        public static F ToFraction(double d, double error)
+        public static F ToFraction(double d, double precition = DefaultPrecition)
         {
             int n = (int)Math.Floor(d);
             d -= n;
 
-            if (d < error)
+            if (d < precition)
                 return new F(n, 1);
-            else if ((1-error) < d)
+            else if ((1 - precition) < d)
                 return new F(n + 1, 1);
 
-            // The lower fraction is 0/1
-            int lower_n = 0;
-            int lower_d = 1;
-            // The upper fraction is 1/1
-            int upper_n = 1;
-            int upper_d = 1;
+            (int numerator, int denominator) lower = (0, 1);
+            (int numerator, int denominator) upper = (1, 1);
 
             for(;;)
             {
-                // The middle fraction is (lower_n + upper_n) / (lower_d + upper_d)
-                int middle_n = lower_n + upper_n;
-                int middle_d = lower_d + upper_d;
-                // If x + error < middle
-                if (middle_d * (d + error) < middle_n)
+                (int numerator, int denominator) middle = (lower.numerator + upper.numerator, lower.denominator + upper.denominator);
+
+                if (middle.denominator * (d + precition) < middle.numerator)
                 {
-                    // middle is our new upper
-                    upper_n = middle_n;
-                    upper_d = middle_d;
+                    upper = middle;
                 }
-                // Else If middle < x - error
-                else if (middle_n < (d - error) * middle_d)
+                else if (middle.numerator < (d - precition) * middle.denominator)
                 {
-                    // middle is our new lower
-                    lower_n = middle_n;
-                    lower_d = middle_d;
+                    lower = middle;
                 }
-                // Else middle is our best fraction
                 else
-                    return new F(n * middle_d + middle_n, middle_d);
+                {
+                    return new F(n * middle.denominator + middle.numerator, middle.denominator);
+                }
             }
         }
 
@@ -223,6 +230,10 @@ namespace Fraction
 
         #region Converters
 
+        /// <summary>
+        /// Convert <see cref="F"/> to
+        /// </summary>
+        /// <param name="f"></param>
         public static explicit operator double(F f)
         {
             return (double)f.Numerator / f.Denominator;
@@ -230,28 +241,24 @@ namespace Fraction
 
         public static explicit operator F(double d)
         {
-            return ToFraction(d, 0.000000001);
+            return ToFraction(d);
+        }
+
+        /// <summary>
+        /// Tuple Deconstruction.
+        /// </summary>
+        /// <example>
+        /// var (n, d) = new F(1, 2);
+        /// </example>
+        /// <param name="numerator">Numerator</param>
+        /// <param name="denominator">Denominator</param>
+        public void Deconstruct(out int numerator, out int denominator)
+        {
+            numerator = Numerator;
+            denominator = Denominator;
         }
 
         #endregion
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
-        public double Absolut()
-        {
-            return Math.Abs((double)this._numerator / this._denominator);
-        }
-
-        /// <summary>
-        /// Is this Fraction Zero?
-        /// </summary>
-        public bool IsNotZero()
-        {
-            return this._numerator != 0;
-        }
-
 
         public override bool Equals(object obj)
         {
