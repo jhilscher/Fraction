@@ -7,7 +7,8 @@
     <NeutralLanguage>English</NeutralLanguage>
     <SignAssembly>False</SignAssembly>
     <Authors>Jörg Hilscher</Authors>
-    <Company>jHilscher@github</Company>
+    <Company>jHilscher</Company>
+    <PackageProjectUrl>https://github.com/jhilscher/Fraction/</PackageProjectUrl>
   </PropertyGroup>
 
 </Project>
