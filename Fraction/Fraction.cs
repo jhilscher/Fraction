@@ -1,4 +1,4 @@
-﻿namespace JoFraction
+﻿namespace JH.Fraction
 {
     using System;
     using System.Collections.Generic;
@@ -31,14 +31,6 @@
             Numerator = numerator;
             Denominator = denominator;
         }
-
-        //public Fraction(double d, double precition = DefaultPrecition)
-        //{
-        //    var result = GetFraction(d, precition);
-
-        //    Numerator = result.numerator;
-        //    Denominator = result.denominator;
-        //}
 
         /// <summary>
         /// Creates a Fraction
@@ -73,6 +65,7 @@
             return new Fraction(InternalParse(s));
         }
 
+        // TODO
         //public static bool TryParse(string s, out Fraction result)
         //{
         //    Double 
@@ -115,9 +108,6 @@
         /// <summary>
         /// Creates a Fraction from a Double.
         /// </summary>
-        /// <remarks>
-        /// Stern–Brocot tree
-        /// </remarks>
         /// <param name="d">Input Double</param>
         /// <param name="precition">Precition when comparing doubles</param>
         /// <returns>a new <see cref="Fraction"/></returns>
@@ -126,6 +116,15 @@
             return new Fraction(GetFraction(d, precition));
         }
 
+        /// <summary>
+        /// Get x/y from a Double.
+        /// </summary>
+        /// <remarks>
+        /// Stern–Brocot tree
+        /// </remarks>
+        /// <param name="d">Input Double</param>
+        /// <param name="precition">Precition when comparing doubles</param>
+        /// <returns></returns>
         private static (long numerator, long denominator) GetFraction(double d, double precition)
         {
             long n = (long)Math.Floor(d);
@@ -169,21 +168,27 @@
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        private static long ggT(long a, long b)
+        private static long GcF(long a, long b)
         {
             if (b == 0)
                 return a;
-            else return ggT(b, a % b);
+            else return GcF(b, a % b);
         }
 
         private static long kgV(long a, long b)
         {
-            return a / ggT(a, b) * b;
+            return a / GcF(a, b) * b;
         }
 
+        /// <summary>
+        /// Simplifies a Fraction.
+        /// </summary>
+        /// <param name="numerator"></param>
+        /// <param name="denominator"></param>
+        /// <returns></returns>
         private static (long, long) Reduce(long numerator, long denominator)
         {
-            long tmp = ggT(numerator, denominator);
+            long tmp = GcF(numerator, denominator);
             denominator /= tmp;
             numerator /= tmp;
 
@@ -196,7 +201,8 @@
             return (numerator, denominator);
         }
 
-        // Multiplizieren Basis Methode
+        #region Operations (+,-,*,/)
+
         public Fraction Multiply(Fraction other)
         {
             return new Fraction(Numerator * other.Numerator, Denominator * other.Denominator);
@@ -227,7 +233,7 @@
         /// </summary>
         /// <param name="other"></param>
         /// <returns></returns>
-        public Fraction Subtrahieren(Fraction other)
+        public Fraction Subtract(Fraction other)
         {
             if (other.Numerator == 0)
                 return new Fraction(this);
@@ -244,7 +250,7 @@
         /// <param name="other"></param>
         /// <returns>new Fraction as result</returns>
         /// <exception cref="DivideByZeroException"></exception>
-        public Fraction Dividieren(Fraction other)
+        public Fraction Divide(Fraction other)
         {
             if (other.Numerator == 0)
                 throw new DivideByZeroException("other Fraction is zero.");
@@ -252,21 +258,20 @@
             return new Fraction(Numerator * other.Denominator, Denominator * other.Numerator);
         }
 
+        #endregion
+
         #region Operators
 
-        // Überladung '*' operator:
         public static Fraction operator *(Fraction a, Fraction b)
         {
             return a.Multiply(b);
         }
 
-        // Überladung '/' operator:
         public static Fraction operator /(Fraction a, Fraction b)
         {
-            return a.Dividieren(b);
+            return a.Divide(b);
         }
 
-        // Überladung '+' operator:
         public static Fraction operator +(Fraction a, Fraction b)
         {
             return a.Addition(b);
@@ -274,7 +279,7 @@
 
         public static Fraction operator -(Fraction a, Fraction b)
         {
-            return a.Subtrahieren(b);
+            return a.Subtract(b);
         }
 
         public static bool operator ==(Fraction a, Fraction b)
@@ -356,10 +361,10 @@
         /// <returns>-1, 1, 0</returns>
         public int CompareTo(Fraction other)
         {
-            if (this.Numerator <= other.Numerator && this.Denominator >= other.Denominator)
+            if (Numerator <= other.Numerator && Denominator >= other.Denominator)
                 return -1;
 
-            if (this.Numerator >= other.Numerator && this.Denominator <= other.Denominator)
+            if (Numerator >= other.Numerator && Denominator <= other.Denominator)
                 return 1;
 
             return 0;
