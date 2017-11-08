@@ -11,4 +11,8 @@
     <PackageProjectUrl>https://github.com/jhilscher/Fraction/</PackageProjectUrl>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="coveralls.net" Version="0.7.0" />
+  </ItemGroup>
+
 </Project>
