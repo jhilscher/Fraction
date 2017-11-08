@@ -213,6 +213,60 @@ namespace FractionTest
             Assert.AreEqual(1, f.Denominator);
         }
 
+
+        [Test]
+        public void IConvertibleTest1()
+        {
+            // Arrange
+            Fraction f = new Fraction(0, 1);
+
+            // Act
+            bool result = Convert.ToBoolean(f);
+
+            // Assert
+            Assert.IsFalse(result, "Zero maps to false");
+        }
+
+        [Test]
+        public void IConvertibleTest2()
+        {
+            // Arrange
+            Fraction f = new Fraction(12, -23);
+
+            // Act
+            bool result = Convert.ToBoolean(f);
+
+            // Assert
+            Assert.IsTrue(result, "Anything but Zero maps to true");
+        }
+
+        [Test]
+        public void IConvertibleTest3()
+        {
+            // Arrange
+            Fraction f = new Fraction(5, 1);
+
+            // Act
+            var result = Convert.ToByte(f);
+
+            // Assert
+            Assert.AreEqual(5, result);
+        }
+
+        [Test]
+        public void IConvertibleTest4()
+        {
+            // Arrange
+            Fraction f = new Fraction(61, 1);
+
+            // Act
+
+            Assert.Throws<InvalidCastException>(() =>
+            {
+                var result = Convert.ToChar(f);
+            });
+        }
+
         [Test]
         public void DoubleToFractionTest1()
         {

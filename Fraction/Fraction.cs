@@ -5,7 +5,9 @@
     using System.Linq;
 
     // IComparable, IComparable<Double>, IConvertible, IEquatable<Double>, IFormattable
-    public struct Fraction : IComparable<Fraction>, IEquatable<Fraction>, IFormattable
+
+    [Serializable]
+    public struct Fraction : IComparable<Fraction>, IEquatable<Fraction>, IFormattable, IConvertible
     {
         public const double DefaultPrecition = 10e-16;
 
@@ -399,5 +401,94 @@
         {
             return $"{Numerator.ToString(format, formatProvider)}/{Denominator.ToString(format, formatProvider)}";
         }
+
+        #region IConvertible
+
+        public TypeCode GetTypeCode()
+        {
+            return TypeCode.Object;
+        }
+
+        bool IConvertible.ToBoolean(IFormatProvider provider)
+        {
+            return Numerator != 0;
+        }
+
+        byte IConvertible.ToByte(IFormatProvider provider)
+        {
+            return Convert.ToByte(ToDouble(), provider);
+        }
+
+        char IConvertible.ToChar(IFormatProvider provider)
+        {
+            throw new InvalidCastException();
+        }
+
+        DateTime IConvertible.ToDateTime(IFormatProvider provider)
+        {
+            throw new InvalidCastException();
+        }
+
+        decimal IConvertible.ToDecimal(IFormatProvider provider)
+        {
+            return Convert.ToDecimal(ToDouble(), provider);
+        }
+
+        double IConvertible.ToDouble(IFormatProvider provider)
+        {
+            return Convert.ToDouble(ToDouble(), provider);
+        }
+
+        short IConvertible.ToInt16(IFormatProvider provider)
+        {
+            return Convert.ToInt16(ToDouble(), provider);
+        }
+
+        int IConvertible.ToInt32(IFormatProvider provider)
+        {
+            return Convert.ToInt32(ToDouble(), provider);
+        }
+
+        long IConvertible.ToInt64(IFormatProvider provider)
+        {
+            return Convert.ToInt64(ToDouble(), provider);
+        }
+
+        sbyte IConvertible.ToSByte(IFormatProvider provider)
+        {
+            return Convert.ToSByte(ToDouble(), provider);
+        }
+
+        float IConvertible.ToSingle(IFormatProvider provider)
+        {
+            return Convert.ToSingle(ToDouble(), provider);
+        }
+
+        string IConvertible.ToString(IFormatProvider provider)
+        {
+            return $"{Numerator.ToString(provider)}/{Denominator.ToString(provider)}";
+        }
+
+        object IConvertible.ToType(Type conversionType, IFormatProvider provider)
+        {
+            return Convert.ChangeType(ToDouble(), conversionType);
+        }
+
+        ushort IConvertible.ToUInt16(IFormatProvider provider)
+        {
+            return Convert.ToUInt16(ToDouble(), provider);
+        }
+
+        uint IConvertible.ToUInt32(IFormatProvider provider)
+        {
+            return Convert.ToUInt32(ToDouble(), provider);
+        }
+
+        ulong IConvertible.ToUInt64(IFormatProvider provider)
+        {
+            return Convert.ToUInt64(ToDouble(), provider);
+        }
+
+        #endregion
     }
 }
