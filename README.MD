@@ -5,17 +5,25 @@ A .NET Fraction DataType
 
 
 ```csharp
-var f = new Fraction(1,4);
+var f = new Fraction(1, 4);
 ```
 
 
 
-#### Usage like a standard c# datatype:
+#### Examples:
 ```csharp
 Fraction a = new Fraction(1, 5);
 Fraction c = a * 5 + new Fraction(2, 5) - (Fraction)0.2;
 // c: 6/5
+
+// implicit cast to double
+double d = new Fraction(3, 2);
+// d: 1.5
+
+Fraction f = Fraction.ToFraction(5.125);
+// f: 41/8
 ```
+
 
 #### Features
 

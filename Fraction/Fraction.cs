@@ -1,8 +1,6 @@
 ﻿namespace JH.Fraction
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     [Serializable]
     public struct Fraction : IComparable<Fraction>, IEquatable<Fraction>, IFormattable, IConvertible
@@ -175,7 +173,13 @@
             else return GcF(b, a % b);
         }
 
-        private static long kgV(long a, long b)
+        /// <summary>
+        /// Least common multiple.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        private static long LcM(long a, long b)
         {
             return a / GcF(a, b) * b;
         }
@@ -221,11 +225,11 @@
             if (other.Numerator == 0)
                 return new Fraction(this);
 
-            var ErgebnisNenner = kgV(Denominator, other.Denominator);
-            var ErgebnisZaehler = Numerator * (ErgebnisNenner / Denominator) +
-                other.Numerator * (ErgebnisNenner / other.Denominator);
+            var resultDenominator = LcM(Denominator, other.Denominator);
+            var resultNumerator = Numerator * (resultDenominator / Denominator) +
+                other.Numerator * (resultDenominator / other.Denominator);
 
-            return new Fraction(ErgebnisZaehler, ErgebnisNenner);
+            return new Fraction(resultNumerator, resultDenominator);
         }
 
         /// <summary>
@@ -238,10 +242,10 @@
             if (other.Numerator == 0)
                 return new Fraction(this);
 
-            var ErgebnisNenner = kgV(Denominator, other.Denominator);
-            var ErgebnisZaehler = Numerator * (ErgebnisNenner / Denominator) -
-                other.Numerator * (ErgebnisNenner / other.Denominator);
-            return new Fraction(ErgebnisZaehler, ErgebnisNenner);
+            var resultDenominator = LcM(Denominator, other.Denominator);
+            var resultNumerator = Numerator * (resultDenominator / Denominator) -
+                other.Numerator * (resultDenominator / other.Denominator);
+            return new Fraction(resultNumerator, resultDenominator);
         }
 
         /// <summary>

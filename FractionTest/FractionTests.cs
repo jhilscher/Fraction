@@ -200,6 +200,19 @@ namespace FractionTest
             Assert.AreEqual(1.5D, value);
         }
 
+        public void ImplicidConverterTest2()
+        {
+            // Act
+            var a = new Fraction(3, 2);
+            double value = a;
+
+            double b = new Fraction(10, 2);
+
+            // Assert
+            Assert.AreEqual(1.5D, value);
+            Assert.AreEqual(5D, b);
+        }
+
         [Test]
         public void ExplicidConverterTest2()
         {
