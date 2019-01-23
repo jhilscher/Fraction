@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using NUnit.Framework;
 using JH.Fraction;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace FractionTest
 {
@@ -502,6 +503,37 @@ namespace FractionTest
             Fraction z(Fraction zN) {
                 return zN * zN + c;
             }
+        }
+
+        [Test]
+        public void ComplexTest3()
+        {
+            // Arrange
+            Fraction a = new Fraction(1, 5);
+
+            // Act
+            Fraction c = a * 5 + new Fraction(2, 5) - (Fraction)0.2;
+
+            // Assert
+            Assert.AreEqual(new Fraction(6, 5), c);
+        }
+
+        [Test]
+        public void SerializableTest1()
+        {
+            // Arrange
+            Fraction c = new Fraction(1, 5);
+            System.IO.MemoryStream stream = new System.IO.MemoryStream();
+            var formatter = new BinaryFormatter();
+
+            // Act
+            formatter.Serialize(stream, c);
+            stream.Seek(0, System.IO.SeekOrigin.Begin);
+            object o = formatter.Deserialize(stream);
+
+            // Assert
+            Assert.That(o, Is.TypeOf<Fraction>());
+            Assert.That(o, Is.EqualTo(c));
         }
     }
 }

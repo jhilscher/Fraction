@@ -2,13 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <GeneratePackageOnBuild>False</GeneratePackageOnBuild>
-    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <NeutralLanguage>English</NeutralLanguage>
     <SignAssembly>False</SignAssembly>
     <Authors>Jörg Hilscher</Authors>
     <Company>jHilscher</Company>
     <PackageProjectUrl>https://github.com/jhilscher/Fraction/</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/jhilscher/Fraction/</RepositoryUrl>
+    <RepositoryType>GitHub</RepositoryType>
+    <PackageTags>math, arithmetic, datatype, fraction</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>

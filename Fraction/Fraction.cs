@@ -4,8 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    // IComparable, IComparable<Double>, IConvertible, IEquatable<Double>, IFormattable
-
     [Serializable]
     public struct Fraction : IComparable<Fraction>, IEquatable<Fraction>, IFormattable, IConvertible
     {
@@ -319,12 +317,12 @@
         #region Converters
 
         /// <summary>
-        /// Explicitly converts a <see cref="Fraction"/> to a <see cref="Double"/>.
+        /// Implicitly converts a <see cref="Fraction"/> to a <see cref="Double"/>.
         /// </summary>
         /// <example>
         /// double d = (double)(new Fraction(1, 2));
         /// </example>
-        public static explicit operator double(Fraction f)
+        public static implicit operator double(Fraction f)
         {
             return f.ToDouble();
         }
@@ -338,6 +336,16 @@
         public static explicit operator Fraction(double d)
         {
             return ToFraction(d);
+        }
+
+        //public static explicit operator int(Fraction f)
+        //{
+        //    return Convert.ToInt32(f);
+        //}
+
+        public static implicit operator Fraction(int d)
+        {
+            return new Fraction(d, 1);
         }
 
         /// <summary>
